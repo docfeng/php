@@ -1,0 +1,19 @@
+UltraEdit快捷键大全:　　
+1. Key1 自动换行_CTRL + W
+2. Key2 插入当前日期/时间——F7
+3. Key3 找到匹配的括号 (,[,{ or },],)——CTRL + B
+4. Key4 转换所选文字为小写——Ctrl+ F5
+5. Key5 设定书签——CTRL + F2
+6. Key6 转到指定行——Ctrl + G
+7. Key7 10个剪贴板——Ctrl+0-9
+8. Key8 删除光标所在的行——Ctrl + E
+9. Key9 删除从光标到行首的内容——Ctrl +F11
+10. Key10 删除从光标到行尾的内容——Ctrl +F12
+11. Key11 查找上/下一个出现的字符串——Ctrl + F3/F3
+12. Key12 文本替换功能——Ctrl + R
+13. Key13 删除前一个单词——Ctrl + Backspace（退格键）
+14. Key14 删除后一个单词——Ctrl + Delete
+15. Key15 复制并粘贴当前行——Alt + Shift +D
+16. Key16 这是自定义的快捷键 响应eclipse下的注释快捷键Ctrl + /
+17. Key17 在UE中的多个标签间切换——Ctrl + Tab
+18. Key18 比较文件——Alt + F11

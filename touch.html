@@ -1,0 +1,33 @@
+<script>
+function load (){
+  d=document.getElementById("d");
+    d.addEventListener('touchstart',touch,false);
+    d.addEventListener('touchmove',touch,false);
+    d.addEventListener('touchend',touch,false);
+     
+    function touch (event){
+        var event = event || window.event;
+        event.stopPropagation();//阻止冒泡
+     event.preventDefault();
+        var oInp = document.getElementById("inp");
+        
+        switch(event.type){
+            case "touchstart":
+                oInp.innerHTML ="Touch started (" + event.touches[0].clientX +"," + event.touches[0].clientY +")";
+                break;
+            case "touchend":
+                oInp.innerHTML ="<br>Touch end (" + event.changedTouches[0].clientX +"," + event.changedTouches[0].clientY +")";
+                break;
+            case "touchmove":
+                oInp.innerHTML ="<br>Touch moved (" + event.touches[0].clientX +"," + event.touches[0].clientY +")";
+                break;
+        }
+         
+    }
+}
+window.addEventListener('load',load,false);
+</script>
+HTML代码
+​
+1 <p id="inp"></p>
+<div id=d><p>gghhjjjjjnnjjjj</p></div>

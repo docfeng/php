@@ -1,0 +1,63 @@
+<html>
+<title>小说阅读</title>
+<script>
+open_mulu=function(i){
+  //alert(url.value);
+  var str="id="+i+"&url=" + url.value+"&zz="+mulu_zz.value;
+  post("x.php",str,function(a){
+    var obj = window.open("about:blank");
+    obj.document.write("目录源码<br/>"+a);
+  });
+}
+open_txt=function(i){
+  //alert(url.value);
+  var str="x.php?id="+i+"&url=" + url.value+"&zz="+mulu_zz.value;
+  window.open(str);
+}
+post=function(path,str,fun) {  
+  var xmlHttp=null; 
+  try { // Firefox, Opera 8.0+, Safari 
+   xmlHttp=new XMLHttpRequest();
+  }catch (e) { // Internet Explorer 
+    try { 
+    xmlHttp=new ActiveXObject("Msxml2.XMLHTTP"); 
+    }catch (e) { 
+      xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+      } 
+    } 
+  if (xmlHttp==null) { 
+      alert ("您的浏览器不支持AJAX！"); 
+       return; 
+  }
+  xmlHttp.onreadystatechange=function(){
+    if(xmlHttp.readyState==4) { 
+     fun(xmlHttp.responseText)
+    }
+  }
+  xmlHttp.open("POST",path,true); 
+  xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+  xmlHttp.send(str); 
+  //xmlHttp=null;
+  }
+</script>
+<body>
+目录地址：<input type="text" id="url">
+<input type="button" value='获取信息' 
+onclick="ins('.')" /><br/>
+<input type="button" value='源目录' 
+onclick="open_mulu(1)" /><br/>
+<input type="button" value='目录' 
+onclick="open_mulu(2)" /><br/>
+<input type="button" value='源文章' 
+onclick="open_txt(6)" /><br/>
+<input type="button" value='文章' 
+onclick="open_txt(5)" /><br/>
+名称：<input type= "text" name=""><br/>
+章节：<input type="text" name=""><br/>
+完整目录：<br/>
+<div>
+</div>
+目录正则 <input type="text" id="mulu_zz" value='/<div id="kui-page-read-txt".*?>(.*?)<\/div>/'>
+</body>
+
+</html>

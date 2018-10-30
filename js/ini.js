@@ -1,0 +1,1 @@
+get_js('js/test1.js')
