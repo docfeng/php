@@ -1,1 +1,3 @@
-php1
+<?php
+echo "index";
+?>
