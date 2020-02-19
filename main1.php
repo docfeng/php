@@ -1,7 +1,7 @@
-<?php
+﻿<?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $name = @$_POST["name"];
-  $txt = @$_POST["txt"];
+  $name = $_POST["name"];
+  $txt = $_POST["txt"];
   if($txt==""){
     $myfile = fopen($name, "r") or die("Unable to open file!");
     echo fread($myfile,filesize($name)); 
