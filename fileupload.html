@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<input type="file" name="" id="file" value="" />
+		<input type="button" name="" id="upstart" value="upstart" />
+		<input type="button" name="" id="stop" value="stop" />
+		<input type="button" name="" id="restart" value="restart" />
+		<span id="rate">
+			
+		</span>
+		<div id="divlog">
+			
+		</div>
+		<Progress style="width:22%;" id="finish"></Progress>
+		<script type="text/javascript">
+			var fileForm = document.getElementById("file");
+			var upstartBtn = document.getElementById('upstart');
+			var stopBtn = document.getElementById('stop');
+			var startBtn = document.getElementById('restart');
+			var rate = document.getElementById('rate');
+			var divlog = document.getElementById('divlog');
+			var progressObj = document.getElementById('finish');
+			//---------------------------
+			
+
+			//-----------------------------
+			var upload_instance = new Upload();
+
+			fileForm.onchange = function() {
+				upload_instance.reset();
+				/* browserMD5File(fileForm.files[0], function(err, md5) { //如果文件大，md5值生成较慢  md5值生成后才能上传处理，自己优化下吧
+					md5filename = md5; //如果需要刷新后也能断点，可利用cookie记录，自行完善   
+					divlog.innerHTML = '文件md5为：' + md5filename;
+				}); */
+			}
+			upstartBtn.onclick = function() {
+				upload_instance.addFileAndSend(fileForm);
+
+			}
+
+			stopBtn.onclick = function() {
+				upload_instance.stop();
+			}
+
+			startBtn.onclick = function() {
+				upload_instance.start();
+			}
+
+			function Upload() {
+				const LENGTH = 1024 * 1024 * 1;
+				var start = 0;
+				var end = start + LENGTH;
+				var blob;
+				var blob_num = 1;
+				var is_stop = 0
+				var file = null;
+				var md5filename = '';
+				
+				var xhr = new XMLHttpRequest();
+				var form_data = new FormData();
+
+
+				//对外方法，传入文件对象
+				this.addFileAndSend = function(that) {
+					file = that.files[0];
+					blob = cutFile(file);
+					sendFile(blob, file);
+					blob_num += 1;
+				}
+				//停止文件上传
+				this.stop = function() {
+					xhr.abort();
+					is_stop = 1;
+				}
+
+				this.start = function() {
+					sendFile(blob, file);
+					is_stop = 0;
+				}
+				this.reset=function(){
+					start = 0;
+					end = start + LENGTH;
+					blob_num = 1;
+					is_stop = 0;
+				}
+
+				//切割文件
+				function cutFile(file) {
+					var file_blob = file.slice(start, end);
+					start = end;
+					end = start + LENGTH;
+					return file_blob;
+				};
+				//发送文件
+				function sendFile(blob, file) {
+					var total_blob_num = Math.ceil(file.size / LENGTH);
+					form_data.append('file', blob);
+					form_data.append('blob_num', blob_num);
+					form_data.append('total_blob_num', total_blob_num);
+					//form_data.append('md5_file_name', md5filename);
+					form_data.append('file_name', encodeURIComponent(file.name));//encodeURIComponent(file.name)
+
+					xhr.open('POST', './fileupload.php', false);
+
+					xhr.onreadystatechange = function() {
+
+						var progress;
+						
+						if (total_blob_num == 1) {
+							progress = '100%';
+						} else {
+							progress = (Math.min(100, (blob_num / total_blob_num) * 100)).toFixed(2) + '%';
+						}
+						console.log('progress-----' + progress);
+						progressObj.style.width = progress;
+						rate.innerHTML = progress;
+
+						var t = setTimeout(function() {
+							if (start < file.size && is_stop === 0) {
+								blob = cutFile(file);
+								sendFile(blob, file);
+								blob_num += 1;
+							} else {
+
+								//setTimeout(t);
+							}
+						}, 1000);
+					}
+					//xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
+					xhr.send(form_data);
+				}
+			}
+		</script>
+	</body>
+</html>
+<SCRIPT Language=VBScript>
+	<!--
+
+	//-->
+</SCRIPT>
